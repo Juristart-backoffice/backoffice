@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Juristart — Plateforme B2B et back-office de formalités juridiques externalisées pour cabinets d'avocats.">
+  <title>Juristart — Formalités juridiques pour cabinets d'avocats</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='5' fill='%23141c2e'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia' font-size='18' font-weight='700' fill='%23b89b68'>J</text></svg>">
+</head>
+<body>
+
+  <!-- ============================================
+       ESPACE 1 : NAVIGATION PUBLIQUE
+       ============================================ -->
+  <nav class="public-nav" id="publicNav">
+    <div class="public-nav__inner">
+      <a href="#home" class="logo" onclick="navigateTo('home'); return false;" aria-label="Juristart — Accueil">
+        <div class="logo__mark">J</div>
+        <div class="logo__text">JURI<span>START</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home" data-scroll="service">Le service</a></li>
+        <li><a href="#home" data-scroll="fonctionnement">Fonctionnement</a></li>
+        <li><a href="#home" data-scroll="avantages">Avantages</a></li>
+        <li>
+          <button class="btn btn-primary" onclick="openLoginView()">
+            Espace Sécurisé
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ============================================
+       ESPACE 1 : PAGE PUBLIQUE ACCUEIL
+       ============================================ -->
+  <main id="page-home" class="page active">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero__content">
+          <div class="hero__eyebrow">Plateforme pour cabinets d'avocats</div>
+          <h1>Externalisez vos formalités juridiques en toute&nbsp;confiance</h1>
+          <p class="hero__subtitle">
+            Juristart prend en charge le traitement opérationnel de vos formalités.
+            Transmettez vos dossiers, nous nous occupons de l'exécution et vous notifions dès que c'est terminé.
+          </p>
+          <div class="hero__actions">
+            <button class="btn btn-primary btn-lg" onclick="openLoginView()">
+              Accéder à l'espace sécurisé
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <a href="#home" class="btn btn-ghost btn-lg" data-scroll="fonctionnement">Découvrir le fonctionnement</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hero-divider"><hr></div>
+
+    <!-- Le service -->
+    <section class="section" id="section-service">
+      <div class="container">
+        <div class="section__header">
+          <div class="section__label">Le service</div>
+          <h2 class="section__title">Un prestataire de back-office dédié à vos formalités</h2>
+          <p class="section__subtitle">
+            Juristart intervient comme prestataire de formalités externalisées pour les cabinets d'avocats.
+            Le principe est direct : vous transmettez votre dossier complet, nous assurons son traitement opérationnel,
+            et vous récupérez vos documents définitifs.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comment ça fonctionne -->
+    <section class="section section--alt" id="section-fonctionnement">
+      <div class="container">
+        <div class="section__header section__header--center">
+          <div class="section__label">Fonctionnement</div>
+          <h2 class="section__title">Un processus simple en trois temps</h2>
+          <p class="section__subtitle">
+            Aucune surveillance continue requise. Vous êtes sollicité uniquement si une action spécifique est nécessaire.
+          </p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Transmission du dossier</h3>
+            <p class="step-desc">
+              Déposez vos pièces en une seule fois dans votre espace sécurisé, sans saisie redondante.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3 class="step-title">Prise en charge par Juristart</h3>
+            <p class="step-desc">
+              Notre équipe prend en charge l'exécution complète. Vous n'êtes recontacté qu'en cas d'action requise.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Récupération des documents</h3>
+            <p class="step-desc">
+              Vous êtes notifié dès la finalisation du dossier pour télécharger immédiatement vos documents finaux.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Avantages -->
+    <section class="section" id="section-avantages">
+      <div class="container">
+        <div class="section__header">
+          <div class="section__label">Avantages</div>
+          <h2 class="section__title">Pourquoi externaliser avec Juristart</h2>
+          <p class="section__subtitle">
+            Déléguez l'opérationnel pour vous concentrer sur le conseil à vos clients.
+          </p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3 class="benefit-title">Gain de temps immédiat</h3>
+            <p class="benefit-desc">
+              Finies les démarches chronophages sur les guichets administratifs. Un seul dépôt de dossier suffit.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 class="benefit-title">Confidentialité & Sécurité</h3>
+            <p class="benefit-desc">
+              Vos pièces et données juridiques sont conservées dans un espace privé avec des contrôles d’accès par compte et par cabinet.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3 class="benefit-title">Rigueur d'exécution</h3>
+            <p class="benefit-desc">
+              Traitement rigoureux et vérification méthodique de chaque pièce. Vous êtes alerté uniquement si un ajustement est requis.
+            </p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+            </div>
+            <h3 class="benefit-title">Simplicité d'échange</h3>
+            <p class="benefit-desc">
+              Un espace sobre et sans friction. Vous déposez, nous traitons, vous récupérez les actes définitifs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="publicFooter">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="#home" class="logo" onclick="navigateTo('home'); return false;">
+              <div class="logo__mark">J</div>
+              <div class="logo__text" style="color:#ffffff">JURI<span>START</span></div>
+            </a>
+            <p class="footer-desc">
+              Prestataire de back-office juridique pour cabinets d'avocats.
+              Prise en charge opérationnelle des formalités d'entreprise.
+            </p>
+          </div>
+          <div>
+            <h4 class="footer-heading">Plateforme</h4>
+            <ul class="footer-links">
+              <li><a href="#home" data-scroll="service">Le service</a></li>
+              <li><a href="#home" data-scroll="fonctionnement">Fonctionnement</a></li>
+              <li><a href="#home" data-scroll="avantages">Avantages</a></li>
+              <li><a href="#login" onclick="openLoginView(); return false;">Espace Sécurisé</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-heading">Sécurité & Cadre</h4>
+            <ul class="footer-links">
+              <li><a href="#">Confidentialité des dossiers</a></li>
+              <li><a href="#">Sécurité & confidentialité</a></li>
+              <li><a href="#">Conditions générales B2B</a></li>
+              <li><a href="#">Mentions légales</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="footer-heading">Contact</h4>
+            <ul class="footer-links">
+              <li><a href="mailto:contact@juristart.fr">contact@juristart.fr</a></li>
+              <li><a href="tel:+33189000000">Ligne réservée aux cabinets</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 Juristart. Plateforme professionnelle réservée aux cabinets d'avocats.</span>
+          <span>Accès privé & habilitations cloisonnées</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+
+  <!-- ============================================
+       PAGE DE CONNEXION SÉCURISÉE (AUTHENTIFICATION UNIQUE)
+       ============================================ -->
+  <main id="page-login" class="page">
+    <div class="login-layout">
+
+      <!-- Volet Marque -->
+      <div class="login-brand-panel">
+        <div>
+          <a href="#home" class="logo" onclick="navigateTo('home'); return false;">
+            <div class="logo__mark">J</div>
+            <div class="logo__text">JURI<span>START</span></div>
+          </a>
+        </div>
+
+        <div class="login-brand-content">
+          <h2>Plateforme sécurisée de formalités juridiques</h2>
+          <p>
+            Authentification centralisée avec routage automatique vers votre espace dédié (Espace Cabinet ou Back-office Juristart).
+          </p>
+          <div class="login-value-list">
+            <div class="login-value-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Isolation stricte multi-tenant par cabinet
+            </div>
+            <div class="login-value-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Authentification individuelle & journalisation immuable
+            </div>
+            <div class="login-value-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Téléchargements authentifiés et contrôlés
+            </div>
+            <div class="login-value-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Protection 2FA / MFA obligatoire pour l'équipe interne
+            </div>
+          </div>
+        </div>
+
+        <div class="login-brand-footer">
+          Données et pièces confidentielles — Accès sécurisé et cloisonné
+        </div>
+      </div>
+
+      <!-- Volet Formulaires -->
+      <div class="login-form-panel">
+        <div class="login-card">
+
+          <!-- 1. Formulaire de Connexion Unique -->
+          <div id="auth-main-login-view" class="auth-view active">
+            <h2 class="login-card__title">Connexion sécurisée</h2>
+            <p class="login-card__subtitle">Saisissez vos identifiants pour accéder à votre espace</p>
+
+            <!-- Boîte d'aide pour l'environnement de test -->
+            <div class="demo-accounts-hint">
+              <div class="demo-accounts-hint__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                Comptes de test démonstration (cliquez pour remplir) :
+              </div>
+              <div class="demo-account-chip-row">
+                <div class="demo-account-chip" onclick="prefillLogin('avocat.test@juristart.fr')">
+                  <span>avocat.test@juristart.fr</span>
+                  <small>Espace Cabinet</small>
+                </div>
+                <div class="demo-account-chip" onclick="prefillLogin('admin.test@juristart.fr')">
+                  <span>admin.test@juristart.fr</span>
+                  <small>Back-office Juristart (2FA)</small>
+                </div>
+              </div>
+            </div>
+
+            <form id="unifiedLoginForm" onsubmit="handleUnifiedLoginSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="login-email-input">Adresse e-mail professionnelle</label>
+                <input
+                  type="email"
+                  id="login-email-input"
+                  class="form-input"
+                  value="avocat.test@juristart.fr"
+                  placeholder="avocat@cabinet.fr ou formaliste@juristart.fr"
+                  required
+                >
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="login-password-input">Mot de passe</label>
+                <input
+                  type="password"
+                  id="login-password-input"
+                  class="form-input"
+                  
+                  placeholder="••••••••"
+                  required
+                >
+              </div>
+              <div class="form-row-remember">
+                <label class="form-checkbox-label">
+                  <input type="checkbox" checked> Rester connecté
+                </label>
+                <a href="#" class="form-link-subtle" onclick="showAuthSubView('forgot'); return false;">Mot de passe oublié</a>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                Se connecter
+              </button>
+            </form>
+
+            <div class="form-footer-hint">
+              Cabinet invité sans compte actif ?
+              <a href="#" class="form-link-subtle" style="color:var(--navy);font-weight:600;margin-left:4px;" onclick="showAuthSubView('register'); return false;">Activer mon compte</a>
+            </div>
+          </div>
+
+          <!-- 2. Étape 2FA / MFA (Pour les comptes de l'équipe Juristart) -->
+          <div id="auth-mfa-step-view" class="auth-view">
+            <div class="mfa-security-notice">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Authentification 2FA requise (Compte Interne Juristart)</span>
+            </div>
+            <h2 class="login-card__title">Code d'authentification</h2>
+            <p class="login-card__subtitle">Saisissez le code temporaire à 6 chiffres généré par votre application d'authentification (Google Authenticator / YubiKey).</p>
+
+            <form id="mfaStepForm" onsubmit="handleMfaStepSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="mfa-code-input">Code de sécurité (6 chiffres)</label>
+                <input type="text" id="mfa-code-input" class="form-input form-input-mono" placeholder="482 910" maxlength="7" value="739 120" required autofocus>
+              </div>
+              <button type="submit" class="btn btn-gold btn-lg" style="width:100%;margin-top:var(--space-sm);">
+                Valider et accéder au Back-office
+              </button>
+              <div class="form-footer-hint">
+                <a href="#" class="form-link-subtle" onclick="showAuthSubView('main-login'); return false;">← Revenir à l'étape précédente</a>
+              </div>
+            </form>
+          </div>
+
+          <!-- 3. Inscription Cabinet sur invitation -->
+          <div id="auth-register-view" class="auth-view">
+            <div class="invitation-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Activation sur invitation
+            </div>
+            <h2 class="login-card__title">Créer votre compte cabinet</h2>
+            <p class="login-card__subtitle">Renseignez vos coordonnées pour activer votre accès partenaire</p>
+
+            <form id="registerForm" onsubmit="handleCabinetRegisterSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="reg-cabinet">Nom du cabinet d'avocats</label>
+                <input type="text" id="reg-cabinet" class="form-input" placeholder="Ex. : Cabinet Caron & Associés" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-name">Nom et prénom du professionnel</label>
+                <input type="text" id="reg-name" class="form-input" placeholder="Ex. : Maître Marc Caron" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-email">Adresse e-mail professionnelle</label>
+                <input type="email" id="reg-email" class="form-input" placeholder="m.caron@cabinet-caron.fr" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-password">Mot de passe</label>
+                <input type="password" id="reg-password" class="form-input" placeholder="Minimum 12 caractères" required minlength="8">
+              </div>
+              <div class="form-group" style="margin-top:var(--space-md)">
+                <label class="form-checkbox-label">
+                  <input type="checkbox" required checked>
+                  <span>J'accepte les conditions générales B2B et le traitement des données</span>
+                </label>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:var(--space-md);">
+                Activer mon espace cabinet
+              </button>
+            </form>
+
+            <div class="form-footer-hint">
+              <a href="#" class="form-link-subtle" onclick="showAuthSubView('main-login'); return false;">← Retour à la connexion</a>
+            </div>
+          </div>
+
+          <!-- 4. Mot de passe oublié -->
+          <div id="auth-forgot-view" class="auth-view">
+            <h2 class="login-card__title">Réinitialisation</h2>
+            <p class="login-card__subtitle">Saisissez votre e-mail pour recevoir un lien temporaire sécurisé.</p>
+            <form id="forgotForm" onsubmit="handleForgotSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="forgot-email">Adresse e-mail professionnelle</label>
+                <input type="email" id="forgot-email" class="form-input" placeholder="avocat@cabinet.fr" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                Envoyer le lien sécurisé
+              </button>
+            </form>
+            <div class="form-footer-hint">
+              <a href="#" class="form-link-subtle" onclick="showAuthSubView('main-login'); return false;">← Retour à la connexion</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- ============================================
+       APPLICATION SHELL (AUTHENTIFIÉ & CLOISONNÉ)
+       ============================================ -->
+  <div id="app-shell" class="app-shell">
+
+    <!-- Sidebar Dédiée -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-brand">
+        <a href="#app" class="logo" onclick="handleLogoNavigate(); return false;">
+          <div class="logo__mark">J</div>
+          <div class="logo__text">JURI<span>START</span></div>
+        </a>
+        <span class="sidebar-space-indicator" id="sidebarRoleIndicator">Espace Cabinet</span>
+      </div>
+
+      <!-- Navigation dynamique par rôle -->
+      <div class="sidebar-nav-wrap" id="sidebarNavContainer"></div>
+
+      <!-- Profil Utilisateur Bas de Sidebar -->
+      <div class="sidebar-bottom">
+        <div class="sidebar-account-box">
+          <div class="sidebar-avatar" id="sidebarUserInitials">MC</div>
+          <div class="sidebar-account-details">
+            <div class="sidebar-account-name" id="sidebarUserName">Maître Marc Caron</div>
+            <div class="sidebar-account-cabinet" id="sidebarCabinetName">Cabinet Caron & Associés</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenu Principal -->
+    <div class="app-content">
+
+      <!-- Topbar Header -->
+      <header class="app-topbar">
+        <div class="topbar-cabinet-info">
+          <span class="topbar-cabinet-name" id="topbarCabinetName">Cabinet Caron & Associés</span>
+          <span class="topbar-lawyer-name" id="topbarUserName">Maître Marc Caron</span>
+        </div>
+
+        <!-- Recherche Globale (Visible uniquement en Back-office Juristart) -->
+        <div class="topbar-search-wrap" id="topbarSearchWrap" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input
+            type="text"
+            id="globalSearchInput"
+            class="topbar-search-input"
+            placeholder="Rechercher par cabinet, société, réf…"
+            oninput="handleGlobalSearch(this.value)"
+          >
+        </div>
+
+        <div class="topbar-right-actions">
+
+          <!-- Cloche Notifications -->
+          <div class="notif-container">
+            <button class="notif-btn" id="notifBtn" onclick="toggleNotifDropdown(event)" title="Notifications">
+              <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="notif-dot" id="notifDot"></span>
+            </button>
+
+            <div class="notif-dropdown" id="notifDropdown">
+              <div class="notif-header">
+                <span class="notif-header-title">Notifications</span>
+                <span style="font-size:0.75rem;color:var(--text-muted);" id="notifCountLabel">Récentes</span>
+              </div>
+              <div class="notif-list" id="notifList"></div>
+            </div>
+          </div>
+
+          <button class="btn btn-ghost btn-sm" onclick="handleLogout()" title="Se déconnecter">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Déconnexion
+          </button>
+        </div>
+      </header>
+
+      <main class="app-main-content">
+
+        <!-- ==========================================
+             ESPACE 2 : VUES CABINET D'AVOCATS
+             ========================================== -->
+
+        <!-- Vue Cabinet : Tableau de bord -->
+        <div id="view-cabinet-dashboard" class="app-view">
+          <div class="dashboard-hero">
+            <div class="dashboard-hero-title">
+              <h1>Dossiers transmis</h1>
+              <p>Consultez vos dossiers en cours et téléchargez vos documents finaux.</p>
+            </div>
+
+            <button class="btn-deposer-hero" onclick="showAppView('cabinet-deposer')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              + Déposer un dossier
+            </button>
+          </div>
+
+          <div class="table-panel">
+            <div class="table-panel-header">
+              <div class="table-panel-title">Dossiers de votre cabinet</div>
+              <div class="table-filter-tabs">
+                <button class="filter-tab active" onclick="filterCabinetDossiers('all', this)">Tous</button>
+                <button class="filter-tab" onclick="filterCabinetDossiers('action_requise', this)">Action requise</button>
+                <button class="filter-tab" onclick="filterCabinetDossiers('recu', this)">Reçus</button>
+                <button class="filter-tab" onclick="filterCabinetDossiers('termine', this)">Terminés</button>
+              </div>
+            </div>
+
+            <table class="dossiers-table-element">
+              <thead>
+                <tr>
+                  <th>Société</th>
+                  <th>Type de formalité</th>
+                  <th>Date transmission</th>
+                  <th>Référence</th>
+                  <th>Statut</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="cabinetDossiersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Vue Cabinet : Déposer un dossier -->
+        <div id="view-cabinet-deposer" class="app-view">
+          <div class="deposit-page-header">
+            <a class="dossier-view-back" onclick="showAppView('cabinet-dashboard')">
+              <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Retour à la liste des dossiers
+            </a>
+            <h1>Déposer un dossier</h1>
+            <p>Transmettez l'ensemble de votre dossier en une seule fois. Juristart assure la prise en charge intégrale.</p>
+          </div>
+
+          <form class="deposit-card-form" id="cabinetDepositForm" onsubmit="handleCabinetDepositSubmit(event)">
+
+            <div class="deposit-form-step">
+              <div class="deposit-step-label">Étape 1 sur 3</div>
+              <div class="deposit-step-title">Identification de la formalité</div>
+
+              <div class="form-group">
+                <label class="form-label" for="formalite-type-input">Type de formalité</label>
+                <div class="autocomplete-box">
+                  <input
+                    type="text"
+                    id="formalite-type-input"
+                    class="form-input"
+                    placeholder="Commencez à taper (ex. : Transfert de siège, Création SAS, Changement de dirigeant…)"
+                    autocomplete="off"
+                    required
+                  >
+                  <div class="autocomplete-list-dropdown" id="formaliteDropdown"></div>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label" for="societe-nom-input">Nom de la société</label>
+                <input
+                  type="text"
+                  id="societe-nom-input"
+                  class="form-input"
+                  placeholder="Ex. : SAS Alpha Conseil"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="deposit-form-step">
+              <div class="deposit-step-label">Étape 2 sur 3</div>
+              <div class="deposit-step-title">Dépôt du dossier complet</div>
+
+              <div
+                class="deposit-dropzone"
+                id="depositDropzone"
+                onclick="document.getElementById('fileInputHidden').click()"
+              >
+                <input
+                  type="file"
+                  id="fileInputHidden"
+                  multiple
+                  style="display:none"
+                  onchange="handleFileInputChange(event)"
+                >
+                <div class="deposit-dropzone-icon">
+                  <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <div class="deposit-dropzone-text">
+                  Glissez votre dossier ici ou <span>sélectionnez vos fichiers</span>
+                </div>
+                <div class="deposit-dropzone-subtext">
+                  Transmettez l'ensemble des pièces (PDF, Word, images, ZIP). Limite de 50 Mo par fichier.
+                </div>
+              </div>
+
+              <div class="uploaded-files-tray" id="uploadedFilesTray"></div>
+            </div>
+
+            <div class="deposit-form-step">
+              <div class="deposit-step-label">Étape 3 sur 3</div>
+              <div class="deposit-step-title">Instructions ou précisions</div>
+
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label" for="instructions-input">
+                  Instructions ou précisions pour Juristart
+                  <span style="font-weight:400;color:var(--text-muted);">(facultatif)</span>
+                </label>
+                <textarea
+                  id="instructions-input"
+                  class="form-input"
+                  placeholder="Précisez ici toute consigne particulière (date souhaitée d'effet, spécificités d'immatriculation, observations)…"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="deposit-form-submit-row">
+              <div class="deposit-submit-guarantee">
+                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Dépôt sécurisé & accès cloisonné par cabinet
+              </div>
+
+              <div style="display:flex;gap:var(--space-md)">
+                <button type="button" class="btn btn-outline" onclick="showAppView('cabinet-dashboard')">Annuler</button>
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+                  Transmettre le dossier
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Vue Cabinet : Fiche Dossier -->
+        <div id="view-cabinet-dossier" class="app-view">
+          <div id="cabinetDossierDetailContainer"></div>
+        </div>
+
+
+        <!-- ==========================================
+             ESPACE 3 : VUES INTERNES JURISTART (BACK-OFFICE)
+             ========================================== -->
+
+        <!-- Vue Juristart : Tableau de bord -->
+        <div id="view-juristart-dashboard" class="app-view">
+          <div class="dashboard-hero">
+            <div class="dashboard-hero-title">
+              <h1>Back-office Formalités</h1>
+              <p>Réceptionnez, prenez en charge et clôturez les formalités des cabinets partenaires.</p>
+            </div>
+
+            <div style="display:flex;gap:var(--space-sm);">
+              <span class="status-pill status-pill--recu" id="juristartRecuCounter">0 reçu</span>
+              <span class="status-pill status-pill--traitement" id="juristartTraitementCounter">0 en traitement</span>
+              <span class="status-pill status-pill--action" id="juristartActionCounter">0 action requise</span>
+            </div>
+          </div>
+
+          <div class="table-panel">
+            <div class="table-panel-header">
+              <div class="table-panel-title">Dossiers partenaires</div>
+              <div class="table-filter-tabs">
+                <button class="filter-tab active" onclick="filterJuristartDossiers('all', this)">Tous</button>
+                <button class="filter-tab" onclick="filterJuristartDossiers('recu', this)">Reçus</button>
+                <button class="filter-tab" onclick="filterJuristartDossiers('en_traitement', this)">En traitement</button>
+                <button class="filter-tab" onclick="filterJuristartDossiers('action_requise', this)">Action requise</button>
+                <button class="filter-tab" onclick="filterJuristartDossiers('termine', this)">Terminés</button>
+              </div>
+            </div>
+
+            <table class="dossiers-table-element">
+              <thead>
+                <tr>
+                  <th>Cabinet d'avocats</th>
+                  <th>Société</th>
+                  <th>Type de formalité</th>
+                  <th>Date réception</th>
+                  <th>Référence</th>
+                  <th>Statut</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="juristartDossiersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Vue Juristart : Fiche Opérateur Dossier -->
+        <div id="view-juristart-dossier" class="app-view">
+          <div id="juristartDossierDetailContainer"></div>
+        </div>
+
+        <!-- Vue Juristart : Journal d'Audit & Sécurité -->
+        <div id="view-juristart-audit" class="app-view">
+          <div class="dashboard-hero">
+            <div class="dashboard-hero-title">
+              <h1>Journal d'audit & Traçabilité sécurité</h1>
+              <p>Registre immuable des accès, dépôts, téléchargements et changements de statut.</p>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="exportAuditLogs()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exporter le journal (.json)
+            </button>
+          </div>
+
+          <div class="audit-table-panel">
+            <table class="dossiers-table-element">
+              <thead>
+                <tr>
+                  <th>Horodatage (UTC+1)</th>
+                  <th>Événement</th>
+                  <th>Utilisateur & Rôle</th>
+                  <th>Référence</th>
+                  <th>Adresse IP</th>
+                  <th>Détails de l'action</th>
+                </tr>
+              </thead>
+              <tbody id="auditLogsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <!-- ==========================================
+             ÉCRAN DE REFUS D'ACCÈS (403 FORBIDDEN)
+             ========================================== -->
+        <div id="view-access-denied" class="app-view">
+          <div class="access-denied-box">
+            <div class="access-denied-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <h2>Accès non autorisé (Code 403)</h2>
+            <p>
+              Votre compte utilisateur ne dispose pas des permissions requises pour accéder à cette ressource.
+              L'incident a été enregistré dans le journal d'audit de sécurité.
+            </p>
+            <button class="btn btn-primary" onclick="recoverFromAccessDenied()">
+              Retourner à mon espace autorisé
+            </button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ============================================
+       MODALS DE CONTRÔLE ET CLÔTURE STRICTE
+       ============================================ -->
+
+  <!-- 1. Modal Demande de Pièce Complémentaire (Juristart -> Cabinet) -->
+  <div class="modal-backdrop" id="demandDocModal">
+    <div class="confirmation-dialog" style="max-width:520px;text-align:left;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-md);">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--status-action-bg);color:var(--status-action);display:flex;align-items:center;justify-content:center;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:1.25rem;margin:0;">Demander un élément complémentaire</h3>
+          <span style="font-size:0.75rem;color:var(--text-muted);" id="demandModalDossierRef">Dossier JS-2026-XXXX</span>
+        </div>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:var(--space-md);">
+        Le dossier passera au statut <strong>Action requise</strong> et une notification sera immédiatement transmise au cabinet d'avocats.
+      </p>
+
+      <form id="demandDocForm" onsubmit="handleSendDocDemand(event)">
+        <div class="form-group">
+          <label class="form-label" for="demandTextarea">Message / Justificatif demandé</label>
+          <textarea
+            id="demandTextarea"
+            class="form-input"
+            placeholder="Ex. : Merci de nous transmettre le justificatif de domicile de moins de 3 mois du gérant ainsi que la copie de sa pièce d'identité."
+            required
+            style="min-height:90px;"
+          ></textarea>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:var(--space-md);margin-top:var(--space-lg);">
+          <button type="button" class="btn btn-outline" onclick="closeModal('demandDocModal')">Annuler</button>
+          <button type="submit" class="btn btn-gold">
+            Envoyer la demande au cabinet
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- 2. Modal Clôture de Dossier avec Contrôle de Présence des Actes Finaux -->
+  <div class="modal-backdrop" id="closeDossierModal">
+    <div class="confirmation-dialog" style="max-width:500px;text-align:left;">
+      <div style="text-align:center;margin-bottom:var(--space-md);">
+        <div class="confirmation-icon" style="margin:0 auto var(--space-md);">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 id="closeModalTitle" style="text-align:center;">Clôturer la formalité ?</h3>
+      </div>
+
+      <div id="closeModalWarningContainer"></div>
+
+      <p style="font-size:0.875rem;color:var(--text-secondary);line-height:1.6;margin-bottom:var(--space-lg);">
+        Une fois le dossier clôturé, le statut passe à <strong>Terminé</strong>. Le cabinet est immédiatement notifié et pourra télécharger les documents finaux disponibles.
+      </p>
+
+      <div style="display:flex;justify-content:flex-end;gap:var(--space-md);">
+        <button type="button" class="btn btn-outline" onclick="closeModal('closeDossierModal')">Annuler</button>
+        <button type="button" class="btn btn-primary" id="btnConfirmClosure" onclick="confirmCloseDossier()">
+          Confirmer la clôture du dossier
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 3. Modal Confirmation Transmission (Cabinet) -->
+  <div class="modal-backdrop" id="confirmationModal">
+    <div class="confirmation-dialog">
+      <div class="confirmation-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+
+      <div class="confirmation-ref-tag" id="confirmRefDisplay">JS-2026-0042</div>
+      <h3>Dossier transmis avec succès</h3>
+      <p>
+        Votre dossier a bien été réceptionné par Juristart. Nous vous contacterons uniquement si une information ou une action complémentaire est nécessaire.
+      </p>
+
+      <button class="btn btn-primary btn-lg" onclick="closeConfirmationModal()">
+        Retour au tableau de bord
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Toast Global -->
+  <div class="toast-notice" id="toastNotice">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toastMessage">Action effectuée</span>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
