@@ -239,7 +239,7 @@
             </div>
             <div class="login-value-item">
               <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-              Authentification individuelle & journalisation immuable
+              Authentification individuelle & contrôles d’accès par rôle
             </div>
             <div class="login-value-item">
               <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -247,7 +247,7 @@
             </div>
             <div class="login-value-item">
               <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-              Protection 2FA / MFA obligatoire pour l'équipe interne
+              MFA interne prévu avant la mise en production
             </div>
           </div>
         </div>
@@ -279,7 +279,7 @@
                 </div>
                 <div class="demo-account-chip" onclick="prefillLogin('admin.test@juristart.fr')">
                   <span>admin.test@juristart.fr</span>
-                  <small>Back-office Juristart (2FA)</small>
+                  <small>Back-office Juristart</small>
                 </div>
               </div>
             </div>
@@ -336,7 +336,7 @@
             <form id="mfaStepForm" onsubmit="handleMfaStepSubmit(event)">
               <div class="form-group">
                 <label class="form-label" for="mfa-code-input">Code de sécurité (6 chiffres)</label>
-                <input type="text" id="mfa-code-input" class="form-input form-input-mono" placeholder="482 910" maxlength="7" value="739 120" required autofocus>
+                <input type="text" id="mfa-code-input" class="form-input form-input-mono" placeholder="482 910" maxlength="7" required autofocus>
               </div>
               <button type="submit" class="btn btn-gold btn-lg" style="width:100%;margin-top:var(--space-sm);">
                 Valider et accéder au Back-office
@@ -371,7 +371,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label" for="reg-password">Mot de passe</label>
-                <input type="password" id="reg-password" class="form-input" placeholder="Minimum 12 caractères" required minlength="8">
+                <input type="password" id="reg-password" class="form-input" placeholder="Minimum 12 caractères" required minlength="12" autocomplete="new-password">
               </div>
               <div class="form-group" style="margin-top:var(--space-md)">
                 <label class="form-checkbox-label">
@@ -405,6 +405,25 @@
             <div class="form-footer-hint">
               <a href="#" class="form-link-subtle" onclick="showAuthSubView('main-login'); return false;">← Retour à la connexion</a>
             </div>
+          </div>
+
+          <!-- 5. Nouveau mot de passe après lien Supabase -->
+          <div id="auth-update-password-view" class="auth-view">
+            <h2 class="login-card__title">Choisir un nouveau mot de passe</h2>
+            <p class="login-card__subtitle">Le lien de récupération a été validé. Choisissez maintenant un nouveau mot de passe.</p>
+            <form id="updatePasswordForm" onsubmit="handleUpdatePasswordSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="reset-password-input">Nouveau mot de passe</label>
+                <input type="password" id="reset-password-input" class="form-input" minlength="12" autocomplete="new-password" required placeholder="Minimum 12 caractères">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reset-password-confirm-input">Confirmer le mot de passe</label>
+                <input type="password" id="reset-password-confirm-input" class="form-input" minlength="12" autocomplete="new-password" required placeholder="Retapez le nouveau mot de passe">
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+                Enregistrer le nouveau mot de passe
+              </button>
+            </form>
           </div>
 
         </div>

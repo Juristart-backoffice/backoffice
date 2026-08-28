@@ -132,7 +132,7 @@ let dossiersData = [
   }
 ];
 
-// ---- Journal d'Audit Immuable ----
+// ---- Journal d'audit local du prototype (non immuable) ----
 let auditLogs = [
   {
     timestamp: '27/08/2026 15:45:10',
@@ -209,6 +209,22 @@ let pendingMfaUser = null;
 // ============================================
 const sb = window.juristartSupabase;
 const STORAGE_BUCKET = 'juristart-documents';
+
+// Réinitialisation de mot de passe Supabase.
+// Lorsqu'un lien de récupération est ouvert, Supabase crée une session temporaire
+// et émet PASSWORD_RECOVERY. On force alors l'affichage de l'écran dédié.
+let passwordRecoveryActive = false;
+if (sb) {
+  sb.auth.onAuthStateChange((event) => {
+    if (event === 'PASSWORD_RECOVERY') {
+      passwordRecoveryActive = true;
+      setTimeout(() => {
+        navigateTo('login');
+        showAuthSubView('update-password');
+      }, 0);
+    }
+  });
+}
 
 function getInitials(name) {
   return String(name || '')
@@ -621,7 +637,7 @@ function applySessionContext() {
     if (topUser) topUser.textContent = session.userName;
     if (sideCab) sideCab.textContent = 'Opérations Juristart';
     if (sideUser) sideUser.textContent = session.userName;
-    if (sideInitials) sideInitials.textContent = 'CD';
+    if (sideInitials) sideInitials.textContent = session.initials;
     if (sideIndicator) sideIndicator.textContent = 'Back-office Juristart';
     if (searchWrap) searchWrap.style.display = 'block';
   }
@@ -779,7 +795,7 @@ async function handleForgotSubmit(e) {
   e.preventDefault();
   const email = document.getElementById('forgot-email').value.trim();
   const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/#login`
+    redirectTo: `${window.location.origin}/reset-password`
   });
   if (error) {
     alert(`Impossible d’envoyer le lien : ${error.message}`);
@@ -787,6 +803,35 @@ async function handleForgotSubmit(e) {
   }
   showToast('Lien de réinitialisation envoyé');
   showAuthSubView('main-login');
+}
+
+async function handleUpdatePasswordSubmit(e) {
+  e.preventDefault();
+  const password = document.getElementById('reset-password-input').value;
+  const confirmPassword = document.getElementById('reset-password-confirm-input').value;
+
+  if (!password || password.length < 12) {
+    alert('Le nouveau mot de passe doit contenir au moins 12 caractères.');
+    return;
+  }
+  if (password !== confirmPassword) {
+    alert('Les deux mots de passe ne correspondent pas.');
+    return;
+  }
+
+  const { error } = await sb.auth.updateUser({ password });
+  if (error) {
+    console.error(error);
+    alert(`Impossible de modifier le mot de passe : ${error.message}`);
+    return;
+  }
+
+  passwordRecoveryActive = false;
+  await sb.auth.signOut();
+  document.getElementById('reset-password-input').value = '';
+  document.getElementById('reset-password-confirm-input').value = '';
+  navigateTo('login');
+  showToast('Mot de passe modifié. Vous pouvez vous reconnecter.');
 }
 
 async function handleLogout() {
@@ -1643,14 +1688,57 @@ async function handleJuristartAddFinalDoc(e, ref) {
   }
 }
 
-function removeFinalDoc(ref, idx) {
+async function removeFinalDoc(ref, idx) {
   const dossier = dossiersData.find(d => d.ref === ref);
-  if (!dossier) return;
+  if (!dossier || session.role !== 'juristart') return;
 
-  const removed = dossier.documentsFinaux.splice(idx, 1);
-  recordAuditLog('FINAL_DOC_REMOVED', `Retrait du document final ${removed[0]?.name || ''}`, ref);
-  showToast('Document final retiré');
-  openJuristartDossierDetail(ref);
+  const doc = dossier.documentsFinaux?.[idx];
+  if (!doc?.id) {
+    alert('Ce document ne peut pas être supprimé : aucune référence Supabase n’est disponible.');
+    return;
+  }
+
+  const confirmed = window.confirm(`Supprimer définitivement « ${doc.name} » de ce dossier ?`);
+  if (!confirmed) return;
+
+  try {
+    const { data: deletedRows, error: deleteError } = await sb
+      .from('documents')
+      .delete()
+      .eq('id', doc.id)
+      .eq('dossier_id', dossier.id)
+      .eq('kind', 'juristart_final')
+      .select('id');
+
+    if (deleteError) throw deleteError;
+    if (!deletedRows || deletedRows.length === 0) {
+      throw new Error('Suppression refusée ou document déjà absent.');
+    }
+
+    // Une fois la ligne retirée du dossier, on purge le fichier privé.
+    // En cas d'échec de purge, le fichier devient un objet orphelin privé mais
+    // n'est plus exposé dans le dossier. Il pourra être nettoyé côté stockage.
+    let storageCleanupFailed = false;
+    if (doc.storagePath) {
+      const { error: storageError } = await sb.storage
+        .from(STORAGE_BUCKET)
+        .remove([doc.storagePath]);
+      if (storageError) {
+        storageCleanupFailed = true;
+        console.error('Fichier retiré du dossier mais purge Storage impossible', storageError);
+      }
+    }
+
+    recordAuditLog('FINAL_DOC_REMOVED', `Suppression réelle du document final ${doc.name}`, ref);
+    await loadWorkspaceFromSupabase();
+    showToast(storageCleanupFailed
+      ? 'Document retiré du dossier — purge Storage à vérifier'
+      : 'Document final supprimé');
+    openJuristartDossierDetail(ref);
+  } catch (err) {
+    console.error(err);
+    alert(`Suppression impossible : ${err.message}`);
+  }
 }
 
 // ============================================
@@ -1689,7 +1777,7 @@ function exportAuditLogs() {
 }
 
 // ============================================
-// TÉLÉCHARGEMENT SÉCURISÉ (URLS SIGNÉES SIMULÉES)
+// TÉLÉCHARGEMENT SÉCURISÉ (STOCKAGE PRIVÉ SUPABASE)
 // ============================================
 
 async function secureDownloadFile(title, filename, ref) {
@@ -1791,7 +1879,7 @@ function renderNotifications() {
     }
 
     return `
-      <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="handleNotifClick('${n.dossierRef}', ${n.id})">
+      <div class="notif-item ${n.unread ? 'unread' : ''}" onclick='handleNotifClick(${JSON.stringify(n.dossierRef)}, ${JSON.stringify(String(n.id))})'>
         <div class="notif-item-icon">${iconSvg}</div>
         <div class="notif-item-content">
           <div class="notif-item-text">${n.text}</div>
@@ -1802,13 +1890,22 @@ function renderNotifications() {
   }).join('');
 }
 
-function handleNotifClick(dossierRef, notifId) {
+async function handleNotifClick(dossierRef, notifId) {
   const notifs = notifications[session.role];
-  if (notifs) {
-    const notif = notifs.find(n => n.id === notifId);
-    if (notif) notif.unread = false;
+  const notif = notifs?.find(n => String(n.id) === String(notifId));
+  const wasUnread = Boolean(notif?.unread);
+  if (notif) notif.unread = false;
+
+  // Pour les cabinets, l'état lu/non-lu est réellement persisté en base.
+  if (session.role === 'cabinet' && notif?.id && wasUnread) {
+    const { error } = await sb
+      .from('notifications')
+      .update({ read_at: new Date().toISOString() })
+      .eq('id', notif.id);
+    if (error) console.error('Impossible de marquer la notification comme lue', error);
   }
 
+  renderNotifications();
   const dropdown = document.getElementById('notifDropdown');
   if (dropdown) dropdown.classList.remove('open');
 
@@ -1946,6 +2043,17 @@ function escapeRegex(str) {
 
 // Initialisation
 async function init() {
+  const recoveryPath = window.location.pathname.replace(/\/+$/, '') === '/reset-password';
+  if (recoveryPath) {
+    const { data } = await sb.auth.getSession();
+    if (data?.session) {
+      passwordRecoveryActive = true;
+      navigateTo('login');
+      showAuthSubView('update-password');
+      return;
+    }
+  }
+
   const restored = await hydrateSessionFromSupabase();
   const hash = window.location.hash.replace('#', '');
 
