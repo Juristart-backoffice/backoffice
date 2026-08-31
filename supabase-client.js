@@ -23,6 +23,6 @@ window.juristartSupabase = window.supabase.createClient(
   }
 );
 
-// Phase de test : le MFA Supabase réel sera activé à l'étape suivante.
-// Ne pas passer à true avant d'avoir enrôlé les comptes internes Juristart.
-window.JURISTART_REQUIRE_REAL_MFA = false;
+// MFA TOTP réel obligatoire pour les comptes internes Juristart.
+// Les comptes Cabinet restent à AAL1 pour cette phase.
+window.JURISTART_REQUIRE_REAL_MFA = true;

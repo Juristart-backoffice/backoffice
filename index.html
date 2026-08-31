@@ -324,6 +324,37 @@
             </div>
           </div>
 
+          <!-- 2. Première configuration MFA TOTP (comptes internes Juristart) -->
+          <div id="auth-mfa-enroll-view" class="auth-view">
+            <div class="mfa-security-notice">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Configuration MFA obligatoire — Compte interne Juristart</span>
+            </div>
+            <h2 class="login-card__title">Sécuriser ce compte</h2>
+            <p class="login-card__subtitle">
+              Scannez ce QR code avec une application Authenticator, puis saisissez le code à 6 chiffres généré.
+            </p>
+
+            <div id="mfa-enroll-qr" style="display:flex;justify-content:center;align-items:center;margin:18px auto;padding:14px;background:#fff;border:1px solid #e6e0d6;border-radius:10px;min-height:160px;"></div>
+
+            <div style="font-size:.78rem;color:var(--text-secondary);margin-bottom:18px;word-break:break-all;">
+              Impossible de scanner ? Clé manuelle :
+              <strong id="mfa-enroll-secret" style="display:block;margin-top:6px;color:var(--navy);font-family:monospace;letter-spacing:.04em;">—</strong>
+            </div>
+
+            <form id="mfaEnrollForm" onsubmit="handleMfaEnrollSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="mfa-enroll-code-input">Code de sécurité (6 chiffres)</label>
+                <input type="text" id="mfa-enroll-code-input" class="form-input form-input-mono"
+                       inputmode="numeric" autocomplete="one-time-code" placeholder="482 910"
+                       maxlength="7" required>
+              </div>
+              <button type="submit" class="btn btn-gold btn-lg" style="width:100%;margin-top:var(--space-sm);">
+                Activer le MFA et accéder au Back-office
+              </button>
+            </form>
+          </div>
+
           <!-- 2. Étape 2FA / MFA (Pour les comptes de l'équipe Juristart) -->
           <div id="auth-mfa-step-view" class="auth-view">
             <div class="mfa-security-notice">
@@ -331,12 +362,12 @@
               <span>Authentification 2FA requise (Compte Interne Juristart)</span>
             </div>
             <h2 class="login-card__title">Code d'authentification</h2>
-            <p class="login-card__subtitle">Saisissez le code temporaire à 6 chiffres généré par votre application d'authentification (Google Authenticator / YubiKey).</p>
+            <p class="login-card__subtitle">Saisissez le code temporaire à 6 chiffres généré par votre application Authenticator.</p>
 
             <form id="mfaStepForm" onsubmit="handleMfaStepSubmit(event)">
               <div class="form-group">
                 <label class="form-label" for="mfa-code-input">Code de sécurité (6 chiffres)</label>
-                <input type="text" id="mfa-code-input" class="form-input form-input-mono" placeholder="482 910" maxlength="7" required autofocus>
+                <input type="text" id="mfa-code-input" class="form-input form-input-mono" inputmode="numeric" autocomplete="one-time-code" placeholder="482 910" maxlength="7" required autofocus>
               </div>
               <button type="submit" class="btn btn-gold btn-lg" style="width:100%;margin-top:var(--space-sm);">
                 Valider et accéder au Back-office

@@ -294,7 +294,10 @@ async function hydrateSessionFromSupabase() {
     ipAddress: 'Journalisé côté serveur à activer'
   };
 
-  await loadWorkspaceFromSupabase();
+  // IMPORTANT : un compte interne Juristart en AAL1 ne charge aucune donnée métier.
+  if (!(isJuristart && window.JURISTART_REQUIRE_REAL_MFA && !mfaVerified)) {
+    await loadWorkspaceFromSupabase();
+  }
   return true;
 }
 
@@ -751,8 +754,7 @@ async function handleUnifiedLoginSubmit(e) {
   }
 
   if (session.role === 'juristart' && window.JURISTART_REQUIRE_REAL_MFA && !session.mfaVerified) {
-    showAuthSubView('mfa-step');
-    showToast('Second facteur requis pour le Back-office Juristart');
+    await prepareJuristartMfa();
     return;
   }
 
@@ -761,11 +763,149 @@ async function handleUnifiedLoginSubmit(e) {
   showToast(session.role === 'juristart' ? 'Bienvenue dans le Back-office Juristart' : `Bienvenue, ${session.userName}`);
 }
 
+let pendingMfaFactorId = null;
+let pendingMfaMode = null; // 'enroll' | 'challenge'
+
+function normalizeMfaCode(value) {
+  return String(value || '').replace(/\D/g, '').slice(0, 6);
+}
+
+function renderMfaQr(qrCode) {
+  const box = document.getElementById('mfa-enroll-qr');
+  if (!box) return;
+
+  box.innerHTML = '';
+  if (!qrCode) return;
+
+  // Supabase peut renvoyer un SVG, une data URL ou une URL.
+  if (String(qrCode).trim().startsWith('<svg')) {
+    box.innerHTML = qrCode;
+  } else {
+    const img = document.createElement('img');
+    img.src = qrCode;
+    img.alt = 'QR code MFA Juristart';
+    img.style.maxWidth = '220px';
+    img.style.width = '100%';
+    img.style.height = 'auto';
+    box.appendChild(img);
+  }
+}
+
+async function prepareJuristartMfa() {
+  if (!sb || session.role !== 'juristart') return;
+
+  try {
+    const { data: aal, error: aalError } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aalError) throw aalError;
+
+    if (aal?.currentLevel === 'aal2') {
+      session.mfaVerified = true;
+      await loadWorkspaceFromSupabase();
+      recordAuditLog('AUTH_MFA_SUCCESS', `Session AAL2 validée (${session.email})`);
+      navigateTo('app');
+      showToast('Authentification renforcée validée');
+      return;
+    }
+
+    const { data: factorsData, error: factorsError } = await sb.auth.mfa.listFactors();
+    if (factorsError) throw factorsError;
+
+    const verifiedTotp = (factorsData?.totp || []).find(f => f.status === 'verified');
+
+    if (verifiedTotp) {
+      pendingMfaFactorId = verifiedTotp.id;
+      pendingMfaMode = 'challenge';
+      const input = document.getElementById('mfa-code-input');
+      if (input) input.value = '';
+      showAuthSubView('mfa-step');
+      showToast('Code Authenticator requis');
+      setTimeout(() => input?.focus(), 50);
+      return;
+    }
+
+    // Aucun facteur vérifié : première configuration du compte Juristart.
+    const { data: enrollData, error: enrollError } = await sb.auth.mfa.enroll({
+      factorType: 'totp',
+      friendlyName: 'Juristart Back-office'
+    });
+    if (enrollError) throw enrollError;
+
+    pendingMfaFactorId = enrollData.id;
+    pendingMfaMode = 'enroll';
+
+    renderMfaQr(enrollData?.totp?.qr_code);
+
+    const secretEl = document.getElementById('mfa-enroll-secret');
+    if (secretEl) secretEl.textContent = enrollData?.totp?.secret || '—';
+
+    const input = document.getElementById('mfa-enroll-code-input');
+    if (input) input.value = '';
+
+    showAuthSubView('mfa-enroll');
+    showToast('Configurez votre application Authenticator');
+    setTimeout(() => input?.focus(), 50);
+  } catch (err) {
+    console.error('Erreur préparation MFA', err);
+    alert(`Impossible de préparer l’authentification MFA : ${err.message || err}`);
+  }
+}
+
+async function handleMfaEnrollSubmit(e) {
+  e.preventDefault();
+  const input = document.getElementById('mfa-enroll-code-input');
+  const code = normalizeMfaCode(input?.value);
+
+  if (!pendingMfaFactorId || code.length !== 6) {
+    alert('Saisissez le code à 6 chiffres affiché dans votre application Authenticator.');
+    return;
+  }
+
+  try {
+    const { error } = await sb.auth.mfa.challengeAndVerify({
+      factorId: pendingMfaFactorId,
+      code
+    });
+    if (error) throw error;
+
+    session.mfaVerified = true;
+    pendingMfaMode = null;
+    await loadWorkspaceFromSupabase();
+    recordAuditLog('AUTH_MFA_ENROLLED', `MFA TOTP activé et session AAL2 validée (${session.email})`);
+    navigateTo('app');
+    showToast('MFA activé — Back-office sécurisé');
+  } catch (err) {
+    console.error('Erreur enrôlement MFA', err);
+    alert('Code incorrect ou expiré. Attendez le prochain code dans votre application Authenticator et réessayez.');
+  }
+}
+
 async function handleMfaStepSubmit(e) {
   e.preventDefault();
-  // Cette vue est conservée pour le futur branchement Supabase MFA réel.
-  // Tant que JURISTART_REQUIRE_REAL_MFA=false, elle n'est pas utilisée.
-  alert('Le MFA Supabase réel doit encore être enrôlé pour ce compte. Ne pas activer cette exigence en production avant cette étape.');
+  const input = document.getElementById('mfa-code-input');
+  const code = normalizeMfaCode(input?.value);
+
+  if (!pendingMfaFactorId || code.length !== 6) {
+    alert('Saisissez un code Authenticator valide à 6 chiffres.');
+    return;
+  }
+
+  try {
+    const { error } = await sb.auth.mfa.challengeAndVerify({
+      factorId: pendingMfaFactorId,
+      code
+    });
+    if (error) throw error;
+
+    session.mfaVerified = true;
+    pendingMfaMode = null;
+    await loadWorkspaceFromSupabase();
+    recordAuditLog('AUTH_MFA_SUCCESS', `Second facteur TOTP validé (${session.email})`);
+    navigateTo('app');
+    showToast('Authentification renforcée validée');
+  } catch (err) {
+    console.error('Erreur validation MFA', err);
+    alert('Code incorrect ou expiré. Vérifiez votre application Authenticator et réessayez.');
+  }
 }
 
 async function handleCabinetRegisterSubmit(e) {
